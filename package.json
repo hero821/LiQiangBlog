@@ -6,7 +6,9 @@
     "build": "hexo generate",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
-    "server": "hexo server"
+    "server": "hexo server",
+    "cgd": "hexo clean && hexo generate && hexo deploy",
+    "cgs": "hexo clean && hexo generate && hexo server --debug"
   },
   "hexo": {
     "version": "5.4.0"
@@ -17,6 +19,7 @@
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",
     "hexo-generator-index": "^2.0.0",
+    "hexo-generator-searchdb": "^1.3.2",
     "hexo-generator-tag": "^1.0.0",
     "hexo-renderer-ejs": "^1.0.0",
     "hexo-renderer-marked": "^4.0.0",
