@@ -20,7 +20,7 @@ categories:
 * 最后，我想起来Linux有个ln命令，效果是我想要的，开始Google查询“windows 软连接”，找到了mklink命令。
 
 查看help：
-```Shell
+```shell
 λ mklink
 创建符号链接。
 
@@ -36,6 +36,6 @@ MKLINK [[/D] | [/H] | [/J]] Link Target
 ```
 ## 结论
 注：需要管理员权限
-```Shell
+```shell
 λ mklink /D C:\Users\***\AppData\Roaming\Proxifier\Profiles E:\Config\Proxifier\Profiles
 ```

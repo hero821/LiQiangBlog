@@ -15,10 +15,11 @@ categories:
 
 显然，第一种方案在网速较慢的时候，是影响工作效率的。
 <!-- more -->
+
 # 解决问题
 ## 过程
 查看help：
-```Shell
+```shell
 [security@localhost jars]$ jar
 用法: jar {ctxui}[vfm0Me] [jar-file] [manifest-file] [entry-point] [-C dir] files ...
 选项包括: 
@@ -47,26 +48,26 @@ categories:
 ```
 ## 结论
 * 查看文件在jar包中的路径
-```Shell
+```shell
 [security@localhost jars]$ jar tvf service.jar |grep todo
   304 Fri Aug 23 12:00:00 CST 2019 BOOT-INF/classes/templates/todo.ftl
 ```
 * 解压出文件
-```Shell
+```shell
 [security@localhost jars]$ jar xvf service.jar BOOT-INF/classes/templates/todo.ftl
   已解压: BOOT-INF/classes/templates/todo.ftl
 ```
 * 覆盖解压出的文件
-```Shell
+```shell
 mv todo.ftl BOOT-INF/classes/templates/todo.ftl
 ```
 * 合并文件到jar包中
-```Shell
+```shell
 [security@localhost jars]$ jar uvf service.jar BOOT-INF/classes/templates/todo.ftl
   正在添加: BOOT-INF/classes/templates/todo.ftl(输入 = 304) (输出 = 195)(压缩了 35%)
 ```
 * 删除解压出的文件
-```Shell
+```shell
 [security@localhost jars]$ rm -rf BOOT-INF
 ```
 * 重启服务
