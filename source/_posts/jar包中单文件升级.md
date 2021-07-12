@@ -2,10 +2,10 @@
 title: jar包中单文件升级
 date: 2020-10-01 12:00:00
 tags: 
-- java
+- linux
 - springboot
 categories: 
-- java
+- [springboot]
 ---
 # 发现问题
 开发springboot项目的时候，我们经常会以jar包的形式进行部署。这个时候，如果需要修改某一个文件，那么该怎么升级呢？

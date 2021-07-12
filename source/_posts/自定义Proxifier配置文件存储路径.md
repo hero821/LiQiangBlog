@@ -2,10 +2,10 @@
 title: 自定义Proxifier配置文件存储路径
 date: 2020-10-01 12:00:00
 tags: 
-- 软件配置
 - windows
-categories:
 - 软件配置
+categories:
+- [软件配置]
 ---
 # 发现问题
 今天使用Proxifier的时候，发现配置文件存储路径为：C:\Users\\***\AppData\Roaming\Proxifier\Profiles。
