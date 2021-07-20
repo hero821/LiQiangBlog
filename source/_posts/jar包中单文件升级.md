@@ -2,23 +2,27 @@
 title: jar包中单文件升级
 date: 2020-10-01 12:00:00
 tags: 
-- linux
+- Linux
 - springboot
 categories: 
 - [springboot]
 ---
+
 # 发现问题
+
 开发springboot项目的时候，我们经常会以jar包的形式进行部署。这个时候，如果需要修改某一个文件，那么该怎么升级呢？
-
-* 本地重新打包，全包上传到服务器
-* 只上传单文件到服务器，在服务器上把单文件合并到原来的jar包中
-
+- 本地重新打包，全包上传到服务器
+- 只上传单文件到服务器，在服务器上把单文件合并到原来的jar包中
 显然，第一种方案在网速较慢的时候，是影响工作效率的。
+
 <!-- more -->
 
 # 解决问题
+
 ## 过程
+
 查看help：
+
 ```shell
 [security@localhost jars]$ jar
 用法: jar {ctxui}[vfm0Me] [jar-file] [manifest-file] [entry-point] [-C dir] files ...
@@ -46,28 +50,40 @@ categories:
            将 foo/ 目录中的所有文件归档到 'classes.jar' 中: 
        jar cvfm classes.jar mymanifest -C foo/ .
 ```
+
 ## 结论
+
 * 查看文件在jar包中的路径
+
 ```shell
 [security@localhost jars]$ jar tvf service.jar |grep todo
   304 Fri Aug 23 12:00:00 CST 2019 BOOT-INF/classes/templates/todo.ftl
 ```
+
 * 解压出文件
+
 ```shell
 [security@localhost jars]$ jar xvf service.jar BOOT-INF/classes/templates/todo.ftl
   已解压: BOOT-INF/classes/templates/todo.ftl
 ```
+
 * 覆盖解压出的文件
+
 ```shell
 mv todo.ftl BOOT-INF/classes/templates/todo.ftl
 ```
+
 * 合并文件到jar包中
+
 ```shell
 [security@localhost jars]$ jar uvf service.jar BOOT-INF/classes/templates/todo.ftl
   正在添加: BOOT-INF/classes/templates/todo.ftl(输入 = 304) (输出 = 195)(压缩了 35%)
 ```
+
 * 删除解压出的文件
+
 ```shell
 [security@localhost jars]$ rm -rf BOOT-INF
 ```
+
 * 重启服务
