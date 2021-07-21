@@ -5,7 +5,7 @@ tags:
 - VPN
 - WireGuard
 categories:
-- [软件安装]
+- [WireGuard]
 ---
 
 # 安装windows端
