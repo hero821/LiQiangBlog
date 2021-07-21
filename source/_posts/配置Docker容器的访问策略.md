@@ -21,13 +21,11 @@ docker run -d --name nginx \
 nginx:1.20-alpine
 ```
 
-# 介绍
+# 方案
 
 Docker通过操作iptables规则来提供网络隔离。
 
 Docker安装了两个名为DOCKER-USER和DOCKER的自定义iptables链，并确保传入的数据包始终首先由这两个链检查。
-
-<!-- more -->
 
 Docker的所有iptables规则都添加到DOCKER链中，不要手动修改此链。
 
@@ -41,6 +39,8 @@ Chain DOCKER-USER (1 references)
     0     0 RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0  
 ```
 
+<!-- more -->
+
 不推荐直接在FORWARD链中添加规则，具体原因，分两种情况说明
 
 1. 在FORWARD链底部添加规则
@@ -53,7 +53,7 @@ Chain DOCKER-USER (1 references)
 
    执行systemctl restart docker等操作之后，Docker会把自己的规则添加到FORWARD链顶部，导致自定义规则无法起作用。
 
-# 配置
+# 案例
 
 允许IP访问
 
