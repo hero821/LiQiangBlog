@@ -2,10 +2,11 @@
 title: 安装WireGuard
 date: 2021-07-20 12:00:00
 tags:
-- VPN
+- Proxy
 - WireGuard
+- VPN
 categories:
-- [WireGuard]
+- [Proxy]
 ---
 
 # 安装windows端

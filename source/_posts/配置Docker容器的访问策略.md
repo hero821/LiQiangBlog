@@ -2,7 +2,6 @@
 title: 配置Docker容器的访问策略
 date: 2021-07-21 12:00:00
 tags:
-- Linux
 - Docker
 - iptables
 categories:
@@ -14,11 +13,7 @@ categories:
 需要对容器暴露的主机端口进行白名单访问控制，仅允许某些IP访问主机端口。
 
 ```shell
-docker run -d --name nginx \
--p 60080:80 \
--v ~/nginx/nginx.conf:/etc/nginx/nginx.conf \
--v ~/nginx/conf.d:/etc/nginx/conf.d \
-nginx:1.20-alpine
+docker run -d --name nginx -p 60080:80 nginx:1.20-alpine
 ```
 
 # 方案
