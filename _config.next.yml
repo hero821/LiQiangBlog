@@ -950,3 +950,6 @@ vendors:
 css: css
 js: js
 images: images
+
+archive_generator:
+  daily: true

@@ -1,6 +1,6 @@
 ---
 title: 配置CoreDNS服务发现
-date: 2021-07-24 10:00:00
+date: 2021-07-24 12:00:00
 tags:
 - DNS
 - CoreDNS
