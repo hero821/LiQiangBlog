@@ -1,5 +1,5 @@
 ---
-title: DNS基本概念
+title: DNS相关概念
 date: 2021-07-24 10:00:00
 tags:
 - DNS
@@ -34,7 +34,7 @@ MX：邮件记录（Mail eXchange），返回接收电子邮件的服务器地�
 CNAME：规范名称记录（Canonical Name），返回另一个域名，即当前查询的域名是另一个域名的跳转。
 PTR：逆向查询记录（Pointer Record），只用于从IP地址查询域名。
 
-# 私有DNS解决方案
+# 私有DNS选型
 
 BIND
 PowerDNS

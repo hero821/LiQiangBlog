@@ -9,12 +9,14 @@ categories:
 - [Proxy]
 ---
 
-# 安装windows端
+# 安装
+
+## 安装windows端
 
 安装wireguard-amd64-0.3.16.msi：可以正常安装，无法正常使用
 安装TunSafe-1.4.exe：可以正常安装，可以正常使用，可以支持ListenPortTCP
 
-# 安装centos端
+## 安装centos端
 
 > 需要升级内核
 
@@ -32,7 +34,7 @@ lsmod | grep wireguard
 
 <!-- more -->
 
-# 安装wireguard-go端
+## 安装wireguard-go端
 
 > 无需升级内核，多平台，性能差
 
@@ -48,7 +50,9 @@ yum install wireguard-tools
 wg-quick up wg0
 ```
 
-# 配置服务端
+# 配置
+
+## 配置服务端
 
 ```shell
 # wg genkey > privatekey
@@ -74,7 +78,7 @@ wg show
 wg syncconf wg0 <(wg-quick strip wg0)
 ```
 
-# 配置客户端
+## 配置客户端
 
 ```shell
 wg genkey | tee privatekey | wg pubkey > publickey
@@ -87,9 +91,9 @@ PrivateKey = <Client Private Key>
 ###
 ```
 
-# 连接 Client 和 Server
+## 连接 Client 和 Server
 
-## 方法1
+### 使用配置文件
 
 服务端wg0.conf添加到客户端Peer
 
@@ -114,7 +118,7 @@ PersistentKeepalive = 30
 ###
 ```
 
-## 方法2
+### 使用命令行
 
 服务端执行命令
 
@@ -130,6 +134,12 @@ wg set wg0 peer <Server Public Key> allowed-ips 10.0.0.0/24 persistent-keepalive
 wg-quick save wg0
 ```
 
-# 配置生成
+## 配置生成
 
 https://www.wireguardconfig.com
+
+# 参考
+
+https://www.wireguard.com
+
+https://fuckcloudnative.io/posts/wireguard-docs-practice
