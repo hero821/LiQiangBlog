@@ -31,6 +31,10 @@ categories:
 - centos.sh
 - start-centos.sh
 
+# 配置
+
+关于 termux 的配置，可以参考 {% post_link 安装Termux 这里 %}
+
 # 启动
 
 ```shell
@@ -56,14 +60,14 @@ openresty
 # 配置 lua
 ###
 server {
-	listen       8082;
-	server_name  localhost;
-	location / {
-		default_type text/html;
-		content_by_lua_block {
-			ngx.say("<p>hello, world</p>")
-		}
-	}
+  listen       8082;
+  server_name  localhost;
+  location / {
+    default_type text/html;
+    content_by_lua_block {
+      ngx.say("<p>hello, world</p>")
+    }
+  }
 }
 ###
 openresty -s reload
