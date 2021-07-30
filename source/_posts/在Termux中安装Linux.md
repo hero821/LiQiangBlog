@@ -1,9 +1,8 @@
 ---
-title: 手机上安装Linux操作系统
+title: 在Termux中安装Linux
 date: 2021-07-25 23:00:00
 tags:
 - Termux
-- 手机
 categories:
 - [Termux]
 ---

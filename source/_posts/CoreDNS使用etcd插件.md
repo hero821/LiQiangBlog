@@ -1,15 +1,15 @@
 ---
-title: 配置CoreDNS服务发现
+title: CoreDNS使用etcd插件
 date: 2021-07-24 12:00:00
 tags:
 - DNS
 - CoreDNS
-- ETCD
+- etcd
 categories:
 - [DNS]
 ---
 
-# 配置ETCD
+# 配置etcd
 
 ```shell
 docker run -d --name etcd \
@@ -38,18 +38,19 @@ vi Corefile
 ###
 . {
   etcd {
+    fallthrough
     path /skydns
     endpoint http://172.17.0.1:2379
-    fallthrough
   }
   forward . /etc/resolv.conf
   log
   errors
+  loadbalance
 }
 ###
 docker run -d --name coredns \
 -p 53:53/udp \
--v ~/Corefile:/Corefile \
+-v $PWD/Corefile:/Corefile \
 coredns/coredns:1.8.4
 ```
 
@@ -77,7 +78,21 @@ curl -X POST http://172.17.0.1:2379/v3/kv/put \
 # 查询到：example.org. 3600 IN A 10.0.0.2
 dig example.org @172.17.0.1
 
-# 清理ETCD
+# 添加多个A记录，实现负载均衡
+docker run -it --rm \
+--env ALLOW_NONE_AUTHENTICATION=yes \
+bitnami/etcd:3.4.16-debian-10-r28 \
+etcdctl --endpoints http://172.17.0.1:2379 put /skydns/org/example/x1 '{"host":"10.0.0.1","ttl":60}'
+docker run -it --rm \
+--env ALLOW_NONE_AUTHENTICATION=yes \
+bitnami/etcd:3.4.16-debian-10-r28 \
+etcdctl --endpoints http://172.17.0.1:2379 put /skydns/org/example/x2 '{"host":"10.0.0.1","ttl":60}'
+
+# 多次查询，每次返回的IP地址顺序不一样
+dig +short example.org @172.17.0.1
+dig +short example.org @172.17.0.1
+
+# 清理etcd
 docker run -it --rm \
 --env ALLOW_NONE_AUTHENTICATION=yes \
 bitnami/etcd:3.4.16-debian-10-r28 \
