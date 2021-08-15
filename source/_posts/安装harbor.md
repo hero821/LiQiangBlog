@@ -1,6 +1,6 @@
 ---
 title: 安装harbor
-date: 2021-08-14 21:00:00
+date: 2021-08-14 22:00:00
 tags:
 - K8S
 - harbor

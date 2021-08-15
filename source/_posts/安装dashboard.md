@@ -1,6 +1,6 @@
 ---
 title: 安装dashboard
-date: 2021-08-14 21:00:00
+date: 2021-08-14 23:00:00
 tags:
 - K8S
 - harbor
