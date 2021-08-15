@@ -105,6 +105,7 @@ deploy:
   type: git
   repository: https://github.com/hero821/hero821.github.io.git
   branch: master
+  token: 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
 
 search:
   path: search.xml
