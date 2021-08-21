@@ -56,7 +56,6 @@ TABLE_ID := [ local | main | default | NUMBER ]
 - fwmark MARK：选择要匹配的标记值
 - iif NAME：选择要匹配的传入接口设备，例如：可以为转发的数据包和本地数据包创建单独的路由表
 - oif NAME：选择要匹配的传出接口设备，仅适用于来自绑定到设备的本地套接字的数据包
-- 
 
 **ACTION**
 

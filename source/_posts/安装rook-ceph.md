@@ -68,5 +68,6 @@ kubectl -n rook-ceph get svc rook-ceph-mgr-dashboard -o yaml > rook-ceph-mgr-das
 vi rook-ceph-mgr-dashboard-nodeport.yaml
 kubectl apply -f rook-ceph-mgr-dashboard-nodeport.yaml
 # 获取密码，账号：admin
-kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['data']['password']}" | base64 --decode && echo
+kubectl -n rook-ceph get secret rook-ceph-dashboard-password \
+-o jsonpath="{['data']['password']}" | base64 --decode && echo
 ```

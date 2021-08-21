@@ -11,6 +11,7 @@ categories:
 # yaml安装
 
 ```shell
+# 下载
 # wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml -O dashboard.yaml
 wget https://ghproxy.com/https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml \
 -O dashboard.yaml
