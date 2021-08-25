@@ -1,5 +1,5 @@
 ---
-title: 使用kubespray安装K8S
+title: 安装k8s-使用kubespray
 date: 2021-08-14 20:00:00
 tags:
 - K8S
@@ -8,7 +8,7 @@ categories:
 - [K8S]
 ---
 
-# 测试环境
+# 环境
 
 k8s-01：4C+2G+10G
 k8s-02：4C+2G+10G

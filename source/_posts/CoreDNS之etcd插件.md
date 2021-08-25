@@ -1,5 +1,5 @@
 ---
-title: CoreDNS使用etcd插件
+title: CoreDNS之etcd插件
 date: 2021-07-24 12:00:00
 tags:
 - DNS

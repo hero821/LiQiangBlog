@@ -39,7 +39,6 @@ vi values-override.yaml
 ###
 controller:
   hostNetwork: true
-  kind: Deployment
   nodeSelector:
     kubernetes.io/hostname: k8s-01
 ###

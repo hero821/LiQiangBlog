@@ -145,6 +145,19 @@ forwarder:
           </pattern>
         </parse>
       </filter>
+      <filter kubernetes.**>
+        @id filter_record_transformer_kubernetes
+        @type record_transformer
+        enable_ruby true
+        <record>
+          level INFO
+          _tmp1_ ${record["kubernetes"]["namespace"] = record["kubernetes"]["namespace_name"]}
+          _tmp2_ ${record["kubernetes"]["pod"] = {"name": record["kubernetes"]["pod_name"]}}
+          _tmp3_ ${record["kubernetes"]["container"] = {"name": record["kubernetes"]["container_name"]}}
+          _tmp4_ ${record["kubernetes"]["node"] = {"name": record["kubernetes"]["host"]}}
+        </record>
+        remove_keys _tmp1_,_tmp2_,_tmp3_,_tmp4_
+      </filter>
 aggregator:
   configMapFiles:
     fluentd-output.conf: |
