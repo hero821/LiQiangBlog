@@ -21,6 +21,33 @@ cp redsocks /usr/bin
 
 <!-- more -->
 
+# 启动
+
+## 手动启动
+
+```shell
+redsocks -v
+redsocks -c /etc/redsocks/redsocks.conf
+```
+
+## 自动启动
+
+```shell
+vi /lib/systemd/system/redsocks.service
+###
+[Unit]
+Description=redsocks
+After=network-online.target
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/redsocks -c /etc/redsocks/redsocks.conf
+[Install]
+WantedBy=multi-user.target
+###
+systemctl enable redsocks && systemctl start redsocks && systemctl status redsocks
+```
+
 # 配置
 
 ## 配置redsocks
@@ -93,29 +120,22 @@ uid=1000(luser) gid=1001(socksified) groups=1000(luser),1001(socksified)
 sg socksified -c firefox
 ```
 
-# 启动
-
-## 手动启动
+常用配置
 
 ```shell
-redsocks -v
-redsocks -c /etc/redsocks/redsocks.conf
+iptables -t nat -N REDSOCKS
+iptables -t nat -A OUTPUT -p tcp -j REDSOCKS
+iptables -t nat -A PREROUTING -p tcp -j REDSOCKS
+iptables -t nat -A REDSOCKS -d 0.0.0.0/8 -j RETURN
+iptables -t nat -A REDSOCKS -d 10.0.0.0/8 -j RETURN
+iptables -t nat -A REDSOCKS -d 100.64.0.0/10 -j RETURN
+iptables -t nat -A REDSOCKS -d 127.0.0.0/8 -j RETURN
+iptables -t nat -A REDSOCKS -d 169.254.0.0/16 -j RETURN
+iptables -t nat -A REDSOCKS -d 172.16.0.0/12 -j RETURN
+iptables -t nat -A REDSOCKS -d 192.168.0.0/16 -j RETURN
+iptables -t nat -A REDSOCKS -d 198.18.0.0/15 -j RETURN
+iptables -t nat -A REDSOCKS -d 224.0.0.0/4 -j RETURN
+iptables -t nat -A REDSOCKS -d 240.0.0.0/4 -j RETURN
+iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports 12345
 ```
 
-## 自动启动
-
-```shell
-vi /lib/systemd/system/redsocks.service
-###
-[Unit]
-Description=redsocks
-After=network-online.target
-[Service]
-Type=simple
-Restart=always
-ExecStart=/usr/bin/redsocks -c /etc/redsocks/redsocks.conf
-[Install]
-WantedBy=multi-user.target
-###
-systemctl enable redsocks && systemctl start redsocks && systemctl status redsocks
-```

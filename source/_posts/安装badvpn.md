@@ -11,7 +11,7 @@ categories:
 # 安装
 
 ```shell
-yum install cmake openssl openssl-devel nspr nspr-devel nss nss-devel
+yum install cmake openssl openssl-devel nspr nspr-devel nss nss-devel -y
 ln -s /usr/include/nss3 /usr/include/nss
 git clone https://github.com/ambrop72/badvpn.git
 cd badvpn

@@ -26,7 +26,146 @@ elasticsearch + filebeat + kibana，是 elastic 技术栈
 
 参考：https://github.com/kubernetes/kubernetes/tree/master/cluster/addons/fluentd-elasticsearch
 
-### HELM 安装
+### HELM | kokuwa 安装
+
+```shell
+helm repo add elastic https://helm.elastic.co
+
+helm search repo elastic/elasticsearch --versions
+helm pull elastic/elasticsearch --version 7.9.2
+tar zxvf elasticsearch-7.9.2.tgz 
+cd elasticsearch
+cp values.yaml values-override.yaml
+vi values-override.yaml
+###
+replicas: 1
+minimumMasterNodes: 1
+service:
+  type: NodePort
+  nodePort: 30014
+###
+helm install --create-namespace --namespace cmp-efk elasticsearch -f values-override.yaml .
+
+helm search repo elastic/kibana --versions
+helm pull elastic/kibana --version 7.9.2
+tar zxvf kibana-7.9.2.tgz 
+cd kibana
+cp values.yaml values-override.yaml
+vi values-override.yaml
+###
+service:
+  type: NodePort
+  nodePort: 30016
+###
+helm install --create-namespace --namespace cmp-efk kibana -f values-override.yaml .
+
+helm repo add kokuwa https://kokuwaio.github.io/helm-charts
+
+helm search repo kokuwa/fluentd-elasticsearch --versions
+helm pull kokuwa/fluentd-elasticsearch --version 12.0.0
+tar zxvf fluentd-elasticsearch-12.0.0.tgz 
+cd fluentd-elasticsearch
+cp values.yaml values-override.yaml
+vi values-override.yaml
+###
+elasticsearch:
+  hosts: ["elasticsearch-master:9200"]
+  ilm:
+    enabled: true
+    policy:
+      phases:
+        delete:
+          min_age: 3d
+          actions:
+            delete: {}
+  template:
+    enabled: true
+configMaps:
+  useDefaults:
+    systemInputConf: false
+    monitoringConf: false
+extraConfigMaps:
+  containers.input.conf: |-
+    <source>
+      @id fluentd-containers.log
+      @type tail
+      path /var/log/containers/*.log
+      pos_file /var/log/containers.log.pos
+      tag raw.kubernetes.*
+      read_from_head true
+      <parse>
+        @type multi_format
+        <pattern>
+          format json
+          time_key time
+          time_format %Y-%m-%dT%H:%M:%S.%NZ      
+        </pattern>
+        <pattern>
+          format /^(?<time>.+) (?<stream>stdout|stderr) [^ ]* (?<log>.*)$/
+          time_format %Y-%m-%dT%H:%M:%S.%N%:z
+        </pattern>
+      </parse>
+    </source>
+    <match raw.kubernetes.**>
+      @id raw.kubernetes
+      @type detect_exceptions
+      remove_tag_prefix raw
+      message log
+      stream stream
+      multiline_flush_interval 5
+      max_bytes 500000
+      max_lines 1000
+    </match>
+    <filter **>
+      @id filter_concat
+      @type concat
+      key message
+      multiline_end_regexp /\n$/
+      separator ""
+      timeout_label @NORMAL
+      flush_interval 5
+    </filter>
+    <filter kubernetes.**>
+      @id filter_kubernetes_metadata
+      @type kubernetes_metadata
+    </filter>
+    <filter kubernetes.**>
+      @id filter_parser
+      @type parser
+      key_name log
+      reserve_time true
+      reserve_data true
+      remove_key_name_field true
+      <parse>
+        @type multi_format
+        <pattern>
+          format json
+        </pattern>
+        <pattern>
+          format none
+        </pattern>
+      </parse>
+    </filter>
+    <filter kubernetes.**>
+      @id filter_record_transformer_kubernetes
+      @type record_transformer
+      enable_ruby true
+      <record>
+        level INFO
+        _tmp1_ ${record["kubernetes"]["namespace"] = record["kubernetes"]["namespace_name"]}
+        _tmp2_ ${record["kubernetes"]["pod"] = {"name": record["kubernetes"]["pod_name"]}}
+        _tmp3_ ${record["kubernetes"]["container"] = {"name": record["kubernetes"]["container_name"]}}
+        _tmp4_ ${record["kubernetes"]["node"] = {"name": record["kubernetes"]["host"]}}
+      </record>
+      remove_keys _tmp1_,_tmp2_,_tmp3_,_tmp4_
+    </filter>
+###
+helm install --create-namespace --namespace cmp-efk fluentd -f values-override.yaml .
+```
+
+### HELM | bitnami 安装
+
+> bitnami 的 chart 包，kibana功能阉割了不少，慎用
 
 ```shell
 # 添加仓库

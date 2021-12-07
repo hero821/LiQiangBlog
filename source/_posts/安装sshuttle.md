@@ -61,3 +61,21 @@ ip rule add fwmark 1 lookup 100
 ip -6 route add local default dev lo table 100
 ip -6 rule add fwmark 1 lookup 100
 ```
+
+## 常用配置
+
+```shell
+sshuttle -r root@127.0.0.1:60022 0.0.0.0/0 \
+-x 0.0.0.0/8 \
+-x 10.0.0.0/8 \
+-x 100.64.0.0/10 \
+-x 127.0.0.0/8 \
+-x 169.254.0.0/16 \
+-x 172.16.0.0/12 \
+-x 192.168.0.0/16 \
+-x 198.18.0.0/15 \
+-x 224.0.0.0/4 \
+-x 240.0.0.0/4 \
+-v
+```
+
